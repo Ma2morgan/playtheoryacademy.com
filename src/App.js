@@ -7,6 +7,7 @@ export default function App() {
       title: "Pete the Cat",
       level: "Easy Reader",
       category: "Funny",
+      image: "/images/Pete the cat.jpg",
       xp: 25,
       badge: "Cool Cat Badge",
       quiz: [
@@ -22,6 +23,7 @@ export default function App() {
       title: "Biscuit",
       level: "Very Easy",
       category: "Animals",
+      image: "/images/Biscuit.webp",
       xp: 25,
       badge: "Puppy Badge",
       quiz: [
@@ -37,6 +39,7 @@ export default function App() {
       title: "Frog and Toad",
       level: "Growing Reader",
       category: "Friendship",
+      image: "/images/Frog_and_Toad_Together.webp",
       xp: 50,
       badge: "Friendship Badge",
       quiz: [
@@ -52,6 +55,7 @@ export default function App() {
       title: "Magic Tree House",
       level: "Chapter Starter",
       category: "Adventure",
+      image: "/images/Magic Tree House.avif",
       xp: 75,
       badge: "Adventure Badge",
       quiz: [
@@ -137,7 +141,11 @@ export default function App() {
           {books.map((book, index) => (
             <div className="book-card" key={index}>
               <div className="category">{book.category}</div>
-
+              <img
+  src={book.image}
+  alt={book.title}
+  className="book-cover"
+/>
               <h3>{book.title}</h3>
 
               <p>{book.level}</p>
