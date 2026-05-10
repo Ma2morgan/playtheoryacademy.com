@@ -1,0 +1,124 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #fef6e4, #e0f7fa);
+}
+
+.app {
+  text-align: center;
+  padding: 30px;
+}
+
+.hero {
+  background: white;
+  padding: 30px;
+  border-radius: 24px;
+  max-width: 900px;
+  margin: 0 auto 30px;
+  box-shadow: 0px 6px 18px rgba(0,0,0,0.12);
+}
+
+h1 {
+  color: #2b6cb0;
+  font-size: 46px;
+  margin-bottom: 10px;
+}
+
+h2 {
+  color: #1f2937;
+}
+
+.progress-box,
+.quiz-box,
+.badge-box {
+  background: white;
+  padding: 24px;
+  margin: 25px auto;
+  max-width: 700px;
+  border-radius: 24px;
+  box-shadow: 0px 6px 18px rgba(0,0,0,0.12);
+}
+
+.big-number {
+  font-size: 60px;
+  font-weight: bold;
+  color: #38a169;
+  margin: 5px;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 22px;
+  margin-top: 25px;
+}
+
+.book-card {
+  background: white;
+  padding: 22px;
+  border-radius: 22px;
+  box-shadow: 0px 6px 18px rgba(0,0,0,0.12);
+  border-top: 8px solid #63b3ed;
+}
+
+.book-card h2 {
+  color: #2b6cb0;
+}
+
+button {
+  display: block;
+  width: 100%;
+  background: #3182ce;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 12px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #2b6cb0;
+}
+
+.completed-btn {
+  background: #38a169;
+}
+
+.completed-btn:hover {
+  background: #2f855a;
+}
+
+.question {
+  background: #f7fafc;
+  padding: 15px;
+  border-radius: 14px;
+  margin: 12px 0;
+  text-align: left;
+}
+
+input {
+  width: 95%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e0;
+  margin-top: 8px;
+  font-size: 15px;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.badge {
+  background: #fef3c7;
+  padding: 14px 18px;
+  border-radius: 999px;
+  font-weight: bold;
+  color: #92400e;
+}
