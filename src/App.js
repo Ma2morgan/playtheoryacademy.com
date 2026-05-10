@@ -6,95 +6,152 @@ export default function App() {
     {
       title: "Pete the Cat",
       level: "Easy Reader",
-      reward: "Cool Cat Badge",
+      category: "Funny",
+      xp: 25,
+      badge: "Cool Cat Badge",
       quiz: [
-        "Who is the main character?",
-        "What color shoes did Pete wear?",
-        "Was Pete sad or happy?",
+        {
+          question: "Who is the main character?",
+          options: ["Pete", "Biscuit", "Toad"],
+          answer: "Pete",
+        },
       ],
     },
+
     {
       title: "Biscuit",
       level: "Very Easy",
-      reward: "Puppy Badge",
+      category: "Animals",
+      xp: 25,
+      badge: "Puppy Badge",
       quiz: [
-        "What kind of animal is Biscuit?",
-        "Who takes care of Biscuit?",
-        "What does Biscuit like to do?",
+        {
+          question: "What kind of animal is Biscuit?",
+          options: ["Dog", "Cat", "Bird"],
+          answer: "Dog",
+        },
       ],
     },
+
     {
       title: "Frog and Toad",
       level: "Growing Reader",
-      reward: "Friendship Badge",
+      category: "Friendship",
+      xp: 50,
+      badge: "Friendship Badge",
       quiz: [
-        "Who are the two friends?",
-        "How do Frog and Toad help each other?",
-        "What is one kind thing they do?",
+        {
+          question: "Who are best friends?",
+          options: ["Frog and Toad", "Pete and Biscuit", "Jack and Annie"],
+          answer: "Frog and Toad",
+        },
       ],
     },
+
     {
       title: "Magic Tree House",
       level: "Chapter Starter",
-      reward: "Adventure Badge",
+      category: "Adventure",
+      xp: 75,
+      badge: "Adventure Badge",
       quiz: [
-        "Where does the tree house take Jack and Annie?",
-        "What do they discover?",
-        "How do they get home?",
+        {
+          question: "Who travels in the tree house?",
+          options: ["Jack and Annie", "Frog and Toad", "Pete"],
+          answer: "Jack and Annie",
+        },
       ],
     },
   ];
 
+  const [xp, setXp] = useState(0);
   const [completedBooks, setCompletedBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
+  const [selectedAnswers, setSelectedAnswers] = useState({});
 
   const completeBook = (book) => {
     if (!completedBooks.includes(book.title)) {
       setCompletedBooks([...completedBooks, book.title]);
+      setXp(xp + book.xp);
     }
   };
 
-  const getPrize = () => {
-    if (completedBooks.length >= 12) return "🎉 LARGE PRIZE: Big Adventure Day!";
-    if (completedBooks.length >= 8) return "⭐ MEDIUM PRIZE: Ice Cream or Target Trip!";
-    if (completedBooks.length >= 4) return "✨ SMALL PRIZE: Pokémon Cards!";
-    return "Keep reading to unlock your first prize!";
+  const getLevel = () => {
+    if (xp >= 350) return "👑 Summer Champion";
+    if (xp >= 200) return "🏅 Badge Master";
+    if (xp >= 100) return "⭐ Reading Trainer";
+    if (xp >= 50) return "📖 Book Explorer";
+    return "🌱 Starter Reader";
+  };
+
+  const submitQuiz = (book) => {
+    let correct = 0;
+
+    book.quiz.forEach((q, index) => {
+      if (selectedAnswers[index] === q.answer) {
+        correct++;
+      }
+    });
+
+    if (correct === book.quiz.length) {
+      alert("🎉 Quiz Passed! Badge Unlocked!");
+      completeBook(book);
+    } else {
+      alert("❌ Try Again!");
+    }
   };
 
   return (
     <div className="app">
       <header className="hero">
-        <h1>📚 Amelia's Summer Reading Quest</h1>
-        <p>Read books. Take quizzes. Earn badges. Unlock rewards.</p>
+        <h1>📚 Play Theory Academy</h1>
+
+        <h2>StoryQuest: Summer Reading Adventure</h2>
+
+        <p>
+          Read books. Earn XP. Unlock badges. Become a Summer Champion.
+        </p>
       </header>
 
-      <section className="progress-box">
-        <h2>🏆 Reading Progress</h2>
-        <p className="big-number">{completedBooks.length}</p>
-        <p>Books Completed</p>
-        <h3>{getPrize()}</h3>
+      <section className="stats">
+        <div className="stat-card">
+          <h3>⭐ XP</h3>
+          <p>{xp}</p>
+        </div>
+
+        <div className="stat-card">
+          <h3>📚 Books</h3>
+          <p>{completedBooks.length}</p>
+        </div>
+
+        <div className="stat-card">
+          <h3>🏆 Level</h3>
+          <p>{getLevel()}</p>
+        </div>
       </section>
 
       <section>
-        <h2>📖 Choose a Book</h2>
+        <h2>Choose Your StoryQuest</h2>
 
         <div className="book-grid">
           {books.map((book, index) => (
             <div className="book-card" key={index}>
-              <h2>{book.title}</h2>
-              <p>Level: {book.level}</p>
-              <p>Badge: {book.reward}</p>
+              <div className="category">{book.category}</div>
+
+              <h3>{book.title}</h3>
+
+              <p>{book.level}</p>
+
+              <p>XP Reward: {book.xp}</p>
+
+              <p>Badge: {book.badge}</p>
 
               <button onClick={() => setSelectedBook(book)}>
-                Take Quiz
+                Start Quest
               </button>
 
-              {completedBooks.includes(book.title) ? (
-                <button className="completed-btn">Badge Earned ✅</button>
-              ) : (
-                <button onClick={() => completeBook(book)}>
-                  Mark Complete
-                </button>
+              {completedBooks.includes(book.title) && (
+                <div className="earned">✅ Badge Earned</div>
               )}
             </div>
           ))}
@@ -103,39 +160,52 @@ export default function App() {
 
       {selectedBook && (
         <section className="quiz-box">
-          <h2>📝 Quiz: {selectedBook.title}</h2>
-          <p>Answer these with Mom or Dad:</p>
+          <h2>📝 {selectedBook.title} Quiz</h2>
 
-          {selectedBook.quiz.map((question, index) => (
-            <div className="question" key={index}>
-              <strong>{index + 1}. {question}</strong>
-              <input placeholder="Type answer here..." />
+          {selectedBook.quiz.map((q, index) => (
+            <div key={index} className="question-box">
+              <p>{q.question}</p>
+
+              {q.options.map((option) => (
+                <button
+                  key={option}
+                  className="option-btn"
+                  onClick={() =>
+                    setSelectedAnswers({
+                      ...selectedAnswers,
+                      [index]: option,
+                    })
+                  }
+                >
+                  {option}
+                </button>
+              ))}
             </div>
           ))}
 
-          <button onClick={() => completeBook(selectedBook)}>
-            Submit Quiz + Earn Badge
+          <button
+            className="submit-btn"
+            onClick={() => submitQuiz(selectedBook)}
+          >
+            Submit Quiz
           </button>
         </section>
       )}
 
-      <section className="badge-box">
+      <section className="badge-section">
         <h2>🏅 Badge Collection</h2>
 
-        {completedBooks.length === 0 ? (
-          <p>No badges yet. Start reading!</p>
-        ) : (
-          <div className="badges">
-            {completedBooks.map((title, index) => {
-              const book = books.find((b) => b.title === title);
-              return (
-                <div className="badge" key={index}>
-                  ⭐ {book.reward}
-                </div>
-              );
-            })}
-          </div>
-        )}
+        <div className="badges">
+          {completedBooks.map((title, index) => {
+            const book = books.find((b) => b.title === title);
+
+            return (
+              <div className="badge" key={index}>
+                ⭐ {book.badge}
+              </div>
+            );
+          })}
+        </div>
       </section>
     </div>
   );
