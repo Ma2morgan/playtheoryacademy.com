@@ -80,13 +80,57 @@ export default function App() {
     }
   };
 
-  const getLevel = () => {
-    if (xp >= 350) return "👑 Summer Champion";
-    if (xp >= 200) return "🏅 Badge Master";
-    if (xp >= 100) return "⭐ Reading Trainer";
-    if (xp >= 50) return "📖 Book Explorer";
-    return "🌱 Starter Reader";
-  };
+  const getLevelInfo = () => {
+    if (xp >= 350) {
+      return {
+        level: "👑 Summer Legend",
+        currentMin: 350,
+        nextLevel: 350,
+        nextLabel: "Max Level",
+      };
+    }
+  
+    if (xp >= 200) {
+      return {
+        level: "🏆 Reading Master",
+        currentMin: 200,
+        nextLevel: 350,
+        nextLabel: "Summer Legend",
+      };
+    }
+  
+    if (xp >= 100) {
+      return {
+        level: "⭐ Badge Trainer",
+        currentMin: 100,
+        nextLevel: 200,
+        nextLabel: "Reading Master",
+      };
+    }
+  
+    if (xp >= 50) {
+      return {
+        level: "📖 Story Explorer",
+        currentMin: 50,
+        nextLevel: 100,
+        nextLabel: "Badge Trainer",
+      };
+    }
+  
+    return {
+      level: "🌱 Rookie Reader",
+      currentMin: 0,
+      nextLevel: 50,
+      nextLabel: "Story Explorer",
+    };
+  }
+  const levelInfo = getLevelInfo();
+const progressPercent =
+  levelInfo.nextLevel === levelInfo.currentMin
+    ? 100
+    : ((xp - levelInfo.currentMin) /
+        (levelInfo.nextLevel - levelInfo.currentMin)) *
+      100;;
 
   const submitQuiz = (book) => {
     let correct = 0;
@@ -129,11 +173,27 @@ export default function App() {
         </div>
 
         <div className="stat-card">
-          <h3>🏆 Level</h3>
-          <p>{getLevel()}</p>
-        </div>
-      </section>
+  <h3>🏆 Level</h3>
+  <p>{levelInfo.level}</p>
+</div>
 
+      </section>
+      <section className="xp-progress-box">
+  <h2>⭐ XP Progress</h2>
+
+  <p className="level-label">{levelInfo.level}</p>
+
+  <div className="xp-bar">
+    <div
+      className="xp-fill"
+      style={{ width: `${progressPercent}%` }}
+    ></div>
+  </div>
+
+  <p className="xp-text">
+    {xp} / {levelInfo.nextLevel} XP toward {levelInfo.nextLabel}
+  </p>
+</section>
       <section>
         <h2>Choose Your StoryQuest</h2>
 
