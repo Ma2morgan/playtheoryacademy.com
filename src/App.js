@@ -72,11 +72,16 @@ export default function App() {
   const [completedBooks, setCompletedBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
   const [selectedAnswers, setSelectedAnswers] = useState({});
-
+  const [successMessage, setSuccessMessage] = useState("");
   const completeBook = (book) => {
     if (!completedBooks.includes(book.title)) {
       setCompletedBooks([...completedBooks, book.title]);
       setXp(xp + book.xp);
+      setSuccessMessage(
+        `🎉 You earned ${book.xp} XP and unlocked the ${book.badge}!`
+      );
+    } else {
+      setSuccessMessage("✅ You already completed this quest!");
     }
   };
 
@@ -194,6 +199,11 @@ const progressPercent =
     {xp} / {levelInfo.nextLevel} XP toward {levelInfo.nextLabel}
   </p>
 </section>
+{successMessage && (
+  <section className="success-box">
+    <h2>{successMessage}</h2>
+  </section>
+)}
       <section>
         <h2>Choose Your StoryQuest</h2>
 
